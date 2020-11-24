@@ -8,7 +8,7 @@ ThemeData buildThemeData() => ThemeData(
         brightness: Brightness.dark,
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: Colors.deepPurple,
+        buttonColor: colors["button"],
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
       ),
