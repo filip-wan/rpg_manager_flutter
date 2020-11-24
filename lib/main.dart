@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:rpg_manager_flutter/styles/theme.dart';
+import 'package:rpg_manager_flutter/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,10 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'RPG Manager',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: buildThemeData(),
       home: HomePage(title: 'Action List'),
     );
   }

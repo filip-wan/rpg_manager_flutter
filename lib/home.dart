@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './widgets/action_list.dart';
+import 'package:rpg_manager_flutter/widgets/action_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
