@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rpg_manager_flutter/widgets/action_item.dart';
+import 'package:rpg_manager_flutter/models/action_model.dart';
 
-Widget getActionList(BuildContext context, List<Widget> items) => Column(
+Widget getActionList(BuildContext context, List<ActionModel> actionModels) {
+  return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'Stary najebany zesrał się that many times:',
-        ),
-        Text(
-          'elo',
-          style: Theme.of(context).textTheme.headline4,
-        ),
-      ],
-    );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: actionModels.map((m) => ActionItem(model: m)).toList());
+}
