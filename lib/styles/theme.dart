@@ -8,27 +8,35 @@ ThemeData buildThemeData() => ThemeData(
         brightness: Brightness.dark,
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: colors["button"],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+        buttonColor: colors["primary"],
+        // colorScheme: //TODO
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: colors["primary"],
+        foregroundColor: colors["text"],
       ),
       textTheme: TextTheme(
-          headline1: TextStyle(
-              fontSize: 100,
-              fontWeight: FontWeight.normal,
-              color: colors["text"]),
-          headline2: TextStyle(
-              fontSize: 60,
-              fontWeight: FontWeight.normal,
-              color: colors["text"]),
-          button: TextStyle(
-            fontSize: 50,
+        headline1: TextStyle(
+            fontSize: 100,
             fontWeight: FontWeight.normal,
-          )),
+            color: colors["text"]),
+        headline2: TextStyle(
+          fontSize: 60,
+          fontWeight: FontWeight.normal,
+          color: colors["text"],
+        ),
+        button: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.normal,
+          color: colors["text"],
+        ),
+      ),
       brightness: Brightness.dark,
       backgroundColor: colors["background"],
       primaryColor: colors["background"],
       accentColor: colors["text"],
       canvasColor: colors["background"],
-      buttonColor: colors["button"],
+      buttonColor: colors["primary"],
     );

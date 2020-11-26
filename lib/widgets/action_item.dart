@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 
 class ActionItem extends StatelessWidget {
@@ -8,18 +9,28 @@ class ActionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          model.name,
-          style: Theme.of(context).textTheme.headline4,
-        ),
-        Text(model.description),
-        RaisedButton(
-          onPressed: null,
-          child: Text(model.diceEquation),
-        ),
+        Expanded(
+            child: Container(
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                model.name,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Text(model.description),
+              RaisedButton(
+                onPressed: null,
+                child: Text(model.diceEquation),
+              ),
+            ],
+          ),
+        )),
       ],
     );
   }
