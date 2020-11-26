@@ -26,7 +26,7 @@ class ActionItem extends StatelessWidget {
               Text(model.description),
               RaisedButton(
                 onPressed: null,
-                child: Text(model.diceEquation),
+                child: Text('Roll ${model.diceEquation}'),
               ),
             ],
           ),
