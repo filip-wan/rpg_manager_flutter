@@ -13,6 +13,11 @@ ThemeData buildThemeData() => ThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          primary: colors["primary"],
+        ),
+      ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors["primary"],
         foregroundColor: colors["text"],
@@ -35,8 +40,8 @@ ThemeData buildThemeData() => ThemeData(
       ),
       brightness: Brightness.dark,
       backgroundColor: colors["background"],
-      primaryColor: colors["background"],
-      accentColor: colors["text"],
+      primaryColor: colors["primary"],
+      accentColor: colors["navbar"],
       canvasColor: colors["background"],
       buttonColor: colors["primary"],
     );

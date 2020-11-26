@@ -14,7 +14,13 @@ class ActionItem extends StatelessWidget {
       children: <Widget>[
         Expanded(
             child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Theme.of(context).accentColor),
+            color: Theme.of(context).accentColor,
+          ),
           margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,9 +30,14 @@ class ActionItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline5,
               ),
               Text(model.description),
-              RaisedButton(
-                onPressed: null,
-                child: Text('Roll ${model.diceEquation}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Roll ${model.diceEquation}'),
+                  )
+                ],
               ),
             ],
           ),
