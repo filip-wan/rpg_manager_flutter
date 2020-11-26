@@ -16,7 +16,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  //TODO change to actual data
   var userActions = [
+    ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
+    ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
+    ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
+    ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
+    ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
     ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
     ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
     ActionModel('Greataxe attack', 'Deals 1d12+3 damage', '1d12+3'),
@@ -29,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: getActionList(context, userActions),
+        child: ActionList(actions: userActions),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addAction,
