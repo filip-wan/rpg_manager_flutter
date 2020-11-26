@@ -9,7 +9,6 @@ ThemeData buildThemeData() => ThemeData(
       ),
       buttonTheme: ButtonThemeData(
         buttonColor: colors["primary"],
-        // colorScheme: //TODO
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
