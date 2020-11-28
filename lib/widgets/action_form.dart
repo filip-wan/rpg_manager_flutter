@@ -11,12 +11,13 @@ class ActionForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      contentPadding: EdgeInsets.fromLTRB(18, 10, 18, 10),
       content: Stack(
         overflow: Overflow.visible,
         children: <Widget>[
           Positioned(
-            right: -20,
-            top: -20,
+            right: -15,
+            top: -15,
             child: CloseButton(),
           ),
           Form(
@@ -25,11 +26,11 @@ class ActionForm extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.zero,
                   child: TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'What is this action\'s name?',
-                      labelText: 'Action Name *',
+                      labelText: 'Action Name',
                     ),
                     validator: (value) =>
                         value.isEmpty ? 'You have to enter Action Name' : null,
@@ -39,7 +40,7 @@ class ActionForm extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(top: 8),
                   child: TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'What does this action do?',
@@ -51,7 +52,7 @@ class ActionForm extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(top: 8),
                   child: TextFormField(
                     decoration: const InputDecoration(
                       hintText: 'What happens on dice throw?',
@@ -66,7 +67,7 @@ class ActionForm extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 10),
                   child: RaisedButton(
                     child: Text("Add Action"),
                     onPressed: () {
