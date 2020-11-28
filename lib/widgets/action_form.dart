@@ -15,7 +15,10 @@ class ActionForm extends StatelessWidget {
         overflow: Overflow.visible,
         children: <Widget>[
           Positioned(
-              right: -20, top: -20, child: CloseButton(color: Colors.red)),
+            right: -20,
+            top: -20,
+            child: CloseButton(),
+          ),
           Form(
             key: _formKey,
             child: Column(

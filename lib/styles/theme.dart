@@ -40,7 +40,8 @@ ThemeData buildThemeData() => ThemeData(
       brightness: Brightness.dark,
       backgroundColor: colors["background"],
       primaryColor: colors["primary"],
-      accentColor: colors["navbar"],
+      accentColor: colors["text"],
       canvasColor: colors["background"],
       buttonColor: colors["primary"],
+      primaryColorDark: colors["navbar"],
     );
