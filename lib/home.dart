@@ -34,8 +34,9 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) => ActionForm(
         model: new ActionModel(),
         onSaved: (ActionModel actionModel) {
-          this.userActions.add(actionModel);
-          setState(() {});
+          setState(() {
+            this.userActions.add(actionModel);
+          });
         },
       ),
     );
