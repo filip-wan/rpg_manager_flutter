@@ -16,8 +16,8 @@ class ActionItem extends StatelessWidget {
             child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Theme.of(context).accentColor),
-            color: Theme.of(context).accentColor,
+            border: Border.all(color: Theme.of(context).primaryColorDark),
+            color: Theme.of(context).primaryColorDark,
           ),
           margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
           padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
