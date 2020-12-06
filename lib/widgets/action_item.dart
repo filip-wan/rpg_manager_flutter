@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
+import 'package:rpg_manager_flutter/widgets/action_dice_roll.dart';
 
 class ActionItem extends StatelessWidget {
   ActionItem({Key key, this.model, this.onRemove}) : super(key: key);
@@ -26,16 +27,46 @@ class ActionItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  model.name,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        model.name,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      Container(
+                        constraints:
+                            BoxConstraints(maxHeight: 40, maxWidth: 40),
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            color: Theme.of(context).primaryColor,
+                            icon: Icon(Icons
+                                .highlight_remove_outlined), //person_remove
+                            onPressed: () {
+                              onRemove(model);
+                            }),
+                      ),
+                    ]),
                 Text(model.description),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        var scaffold = Scaffold.of(context);
+                        scaffold.hideCurrentSnackBar();
+                        scaffold.showSnackBar(
+                          SnackBar(
+                            backgroundColor: Theme.of(context).primaryColorDark,
+                            content: ActionDiceRoll(model: model),
+                            action: SnackBarAction(
+                              textColor: Theme.of(context).accentColor,
+                              label: "OK",
+                              onPressed: () => scaffold.hideCurrentSnackBar(),
+                            ),
+                          ),
+                        );
+                      },
                       child: Text('Roll ${model.diceEquation}'),
                     )
                   ],
@@ -43,15 +74,6 @@ class ActionItem extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 10),
-          child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              child: Icon(Icons.add),
-              onPressed: () {
-                onRemove(model);
-              }),
         ),
       ],
     );

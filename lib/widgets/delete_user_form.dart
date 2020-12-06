@@ -20,7 +20,7 @@ class DeleteUserForm extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    "Do you want to remove user " + user + "?",
+                    "Do you want to remove user $user?",
                   ),
                 ),
                 Row(
