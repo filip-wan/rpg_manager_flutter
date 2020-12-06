@@ -3,6 +3,7 @@ import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 import 'package:rpg_manager_flutter/models/user_storage.dart';
+import 'package:rpg_manager_flutter/widgets/new_user_form.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title, @required this.storage}) : super(key: key);
@@ -60,13 +61,27 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _showNewUserDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => NewUserForm(
+        userList: this.users,
+        onSaved: (String userName) {
+          setState(() {
+            this.users.add(userName);
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title: Row(children: [
         Expanded(
-          flex: 4,
+          flex: 6,
           child: DropdownButton<String>(
             isExpanded: true,
             onChanged: (String newValue) => _switchUser(newValue),
@@ -83,7 +98,17 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
           ),
         ),
-        Expanded(flex: 5, child: Text(""))
+        Expanded(
+          flex: 2,
+          child: Container(
+            padding: EdgeInsets.only(left: 10),
+            child: FlatButton(
+                color: Theme.of(context).primaryColor,
+                child: Icon(Icons.add),
+                onPressed: () => _showNewUserDialog()),
+          ),
+        ),
+        Expanded(flex: 6, child: Text(""))
       ])),
       body: Center(
         child: ActionList(actions: this.actions),
