@@ -55,9 +55,26 @@ class ActionForm extends StatelessWidget {
                         hintText: 'What happens on dice throw?',
                         labelText: 'Dice Equation',
                       ),
-                      validator: (value) => value.isEmpty
-                          ? 'You have to enter Dice Equation'
-                          : null,
+                      validator: (value) {
+                        var regex =
+                            RegExp(r'^(([0-9]+)|([0-9]+d[0-9]+)|(d[0-9]+))$');
+
+                        var validator = (text) {
+                          bool isInvalid = false;
+                          text.split("+").forEach((element) {
+                            element.split("-").forEach((e) {
+                              isInvalid = isInvalid || !regex.hasMatch(e);
+                            });
+                          });
+                          return isInvalid;
+                        };
+
+                        return value.isEmpty
+                            ? 'You have to enter Dice Equation'
+                            : (validator(value)
+                                ? "Wrong Equation format"
+                                : null);
+                      },
                       onSaved: (String value) {
                         model.diceEquation = value;
                       },
