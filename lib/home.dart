@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: getActionList(context, userActions),
+        child: ActionList(actions: userActions),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addAction(context),
