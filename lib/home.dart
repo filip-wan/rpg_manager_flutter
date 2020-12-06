@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
+import 'package:rpg_manager_flutter/widgets/new_user_form.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
           title: Row(children: [
         Expanded(
-          flex: 4,
+          flex: 6,
           child: DropdownButton<String>(
             isExpanded: true,
             onChanged: (String newValue) {
@@ -71,7 +72,29 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
           ),
         ),
-        Expanded(flex: 5, child: Text(""))
+        Expanded(
+          flex: 2,
+          child: Container(
+              padding: EdgeInsets.only(left: 10),
+              child: FlatButton(
+                color: Theme.of(context).primaryColor,
+                child: Icon(Icons.add),
+                onPressed: () => {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => NewUserForm(
+                      userList: dropdownItems,
+                      onSaved: (String userName) {
+                        setState(() {
+                          dropdownItems.add(userName);
+                        });
+                      },
+                    ),
+                  ),
+                },
+              )),
+        ),
+        Expanded(flex: 6, child: Text(""))
       ])),
       body: Center(
         child: ActionList(actions: userActions),
