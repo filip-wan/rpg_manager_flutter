@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(left: 10),
                 child: FlatButton(
                   color: Theme.of(context).primaryColor,
-                  child: Icon(Icons.delete_forever),
+                  child: Icon(Icons.person_remove),
                   onPressed: () => _deleteUser(),
                 ),
               )),
