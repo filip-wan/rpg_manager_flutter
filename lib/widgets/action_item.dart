@@ -3,10 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 
 class ActionItem extends StatelessWidget {
-  ActionItem({Key key, this.model, this.isFirstInList}) : super(key: key);
+  ActionItem({Key key, this.model}) : super(key: key);
 
   final ActionModel model;
-  final bool isFirstInList;
 
   @override
   Widget build(BuildContext context) {

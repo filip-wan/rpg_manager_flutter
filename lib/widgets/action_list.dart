@@ -16,7 +16,6 @@ class ActionList extends StatelessWidget {
           return Container(
             child: ActionItem(
               model: actions[index],
-              isFirstInList: index == 0,
             ),
           );
         },
