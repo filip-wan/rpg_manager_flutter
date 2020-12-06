@@ -121,7 +121,14 @@ class _HomePageState extends State<HomePage> {
         Expanded(flex: 6, child: Text(""))
       ])),
       body: Center(
-        child: ActionList(actions: this.actions),
+        child: ActionList(
+            actions: this.actions,
+            onRemove: (action) {
+              setState(() {
+                this.actions.remove(action);
+              });
+              widget.storage.saveActions(this.actions);
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addAction(context),
