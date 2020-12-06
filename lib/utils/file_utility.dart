@@ -18,15 +18,14 @@ class FileUtility {
     return file.writeAsString(data);
   }
 
-  Future<String> read(String fileName) async {
+  Future<String> read(String fileName, String defaultContent) async {
     final file = await _localFile(fileName);
     if (await file.exists()) {
       String contents = await file.readAsString();
       return contents;
     } else {
-      final str = "{'users': [], 'active': 'none'}";
-      await file.writeAsString(str);
-      return str;
+      await file.writeAsString(defaultContent);
+      return defaultContent;
     }
   }
 }

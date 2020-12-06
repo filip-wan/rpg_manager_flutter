@@ -11,7 +11,10 @@ class UserStorage {
   String currentUser = 'Anonymous';
 
   Future<List<String>> loadUsers() async {
-    String jsonString = await _files.read(_usersFileName);
+    String jsonString = await _files.read(
+      _usersFileName,
+      '{"users": [], "active": "none"}',
+    );
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
 
     currentUser = jsonMap['active'];
@@ -27,7 +30,10 @@ class UserStorage {
   }
 
   Future<List<ActionModel>> loadActions() async {
-    String jsonString = await _files.read(_actionsFileName());
+    String jsonString = await _files.read(
+      _actionsFileName(),
+      '{"actions": []}',
+    );
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     return jsonMap['actions'];
   }

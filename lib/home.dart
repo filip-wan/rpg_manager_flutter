@@ -18,24 +18,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentUser;
 
-  List<String> users;
-  List<ActionModel> actions;
+  List<String> users = ['Anonymous'];
+  List<ActionModel> actions = [];
 
   @override
   void initState() {
     super.initState();
     widget.storage.loadActions().then((List<ActionModel> value) {
-      setState(() {
-        this.actions = value == null ? [] : value;
-      });
+      if (value != null) {
+        setState(() {
+          this.actions = value;
+        });
+      }
     });
     widget.storage.loadUsers().then((List<String> value) {
-      setState(() {
-        this.users = value == null ? ['Anonymous'] : value;
-        this.currentUser = widget.storage.currentUser == null
-            ? 'Anonymous'
-            : widget.storage.currentUser;
-      });
+      if (value != null) {
+        setState(() {
+          this.users = value;
+          this.currentUser = widget.storage.currentUser == null
+              ? 'Anonymous'
+              : widget.storage.currentUser;
+        });
+      }
     });
   }
 
@@ -47,8 +51,8 @@ class _HomePageState extends State<HomePage> {
         onSaved: (ActionModel actionModel) {
           setState(() {
             this.actions.add(actionModel);
-            widget.storage.saveActions(actions);
           });
+          widget.storage.saveActions(this.actions);
         },
       ),
     );
@@ -57,8 +61,8 @@ class _HomePageState extends State<HomePage> {
   void _switchUser(newValue) {
     setState(() {
       this.currentUser = newValue;
-      widget.storage.saveUsers(this.users, this.currentUser);
     });
+    widget.storage.saveUsers(this.users, this.currentUser);
   }
 
   void _showNewUserDialog() {
@@ -70,6 +74,7 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             this.users.add(userName);
           });
+          widget.storage.saveUsers(this.users, this.currentUser);
         },
       ),
     );
@@ -87,7 +92,8 @@ class _HomePageState extends State<HomePage> {
             onChanged: (String newValue) => _switchUser(newValue),
             value: currentUser,
             icon: Icon(Icons.arrow_downward),
-            items: (this.users == [] ? ['Anonymous'] : this.users)
+            items: this
+                .users
                 .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem<String>(
                     value: value,

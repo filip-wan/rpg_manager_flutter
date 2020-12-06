@@ -11,7 +11,7 @@ class ActionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: ListView.builder(
-        itemCount: actions.length,
+        itemCount: actions?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: ActionItem(
