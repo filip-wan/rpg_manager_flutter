@@ -128,6 +128,14 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
           ),
         ),
+        Container(
+          constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+          padding: EdgeInsets.only(left: 10),
+          child: FlatButton(
+              color: Theme.of(context).primaryColor,
+              child: Icon(Icons.person_add_alt_1),
+              onPressed: () => _showNewUserDialog()),
+        ),
         (this.currentUser == "Anonymous"
             ? Text("")
             : Container(
@@ -144,8 +152,8 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 10),
           child: FlatButton(
               color: Theme.of(context).primaryColor,
-              child: Icon(Icons.add),
-              onPressed: () => _showNewUserDialog()),
+              child: Icon(Icons.calculate_outlined),
+              onPressed: () => {}),
         ),
       ])),
       body: Center(
