@@ -108,68 +108,77 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Row(children: [
-        Expanded(
-          child: DropdownButton<String>(
-            isExpanded: true,
-            onChanged: (String newValue) => _switchUser(newValue),
-            value: currentUser,
-            icon: Icon(Icons.arrow_downward),
-            items: this
-                .users
-                .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  ),
-                )
-                .toList(),
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+            title: Row(children: [
+          Expanded(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              onChanged: (String newValue) => _switchUser(newValue),
+              value: currentUser,
+              icon: Icon(Icons.arrow_downward),
+              items: this
+                  .users
+                  .map<DropdownMenuItem<String>>(
+                    (String value) => DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
+          Container(
+            constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+            padding: EdgeInsets.only(left: 10),
+            child: FlatButton(
+                color: Theme.of(context).primaryColor,
+                child: Icon(Icons.person_add_alt_1),
+                onPressed: () => _showNewUserDialog()),
+          ),
+          (this.currentUser == "Anonymous"
+              ? Text("")
+              : Container(
+                  constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+                  padding: EdgeInsets.only(left: 10),
+                  child: FlatButton(
+                    color: Theme.of(context).primaryColor,
+                    child: Icon(Icons.person_remove),
+                    onPressed: () => _deleteUser(),
+                  ),
+                )),
+          Container(
+            constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+            padding: EdgeInsets.only(left: 10),
+            child: FlatButton(
+                color: Theme.of(context).primaryColor,
+                child: Icon(Icons.calculate_outlined),
+                onPressed: () => {}),
+          ),
+        ])),
+        body: TabBarView(
+          children: <Widget>[
+            Center(
+              child: ActionList(
+                  actions: this.actions,
+                  onRemove: (action) {
+                    setState(() {
+                      this.actions.remove(action);
+                    });
+                    widget.storage.saveActions(this.actions);
+                  }),
+            ),
+            Text("data")
+          ],
         ),
-        Container(
-          constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-          padding: EdgeInsets.only(left: 10),
-          child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              child: Icon(Icons.person_add_alt_1),
-              onPressed: () => _showNewUserDialog()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _addAction(context),
+          tooltip: 'Add actions',
+          child: Icon(Icons.add),
         ),
-        (this.currentUser == "Anonymous"
-            ? Text("")
-            : Container(
-                constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-                padding: EdgeInsets.only(left: 10),
-                child: FlatButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Icon(Icons.person_remove),
-                  onPressed: () => _deleteUser(),
-                ),
-              )),
-        Container(
-          constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-          padding: EdgeInsets.only(left: 10),
-          child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              child: Icon(Icons.calculate_outlined),
-              onPressed: () => {}),
-        ),
-      ])),
-      body: Center(
-        child: ActionList(
-            actions: this.actions,
-            onRemove: (action) {
-              setState(() {
-                this.actions.remove(action);
-              });
-              widget.storage.saveActions(this.actions);
-            }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addAction(context),
-        tooltip: 'Add actions',
-        child: Icon(Icons.add),
       ),
     );
   }
