@@ -3,6 +3,7 @@ import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 import 'package:rpg_manager_flutter/models/user_storage.dart';
+import 'package:rpg_manager_flutter/widgets/delete_user_form.dart';
 import 'package:rpg_manager_flutter/widgets/new_user_form.dart';
 
 class HomePage extends StatefulWidget {
@@ -80,6 +81,26 @@ class _HomePageState extends State<HomePage> {
             this.currentUser = userName;
           });
           widget.storage.saveUsers(this.users, this.currentUser);
+          _loadActions();
+        },
+      ),
+    );
+  }
+
+  void _deleteUser() {
+    if (this.currentUser == "Anonymous") return;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => DeleteUserForm(
+        user: this.currentUser,
+        onDeleted: (String userName) {
+          setState(() {
+            this.users.remove(userName);
+            this.currentUser = this.users.last;
+          });
+          widget.storage.removeUser(userName);
+          widget.storage.saveUsers(this.users, this.currentUser);
+          _loadActions();
         },
       ),
     );
@@ -107,6 +128,17 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
           ),
         ),
+        (this.currentUser == "Anonymous"
+            ? Text("")
+            : Container(
+                constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+                padding: EdgeInsets.only(left: 10),
+                child: FlatButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Icon(Icons.delete_forever),
+                  onPressed: () => _deleteUser(),
+                ),
+              )),
         Container(
           constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
           padding: EdgeInsets.only(left: 10),

@@ -28,4 +28,9 @@ class FileUtility {
       return defaultContent;
     }
   }
+
+  void remove(String fileName) async {
+    final file = await _localFile(fileName);
+    if (await file.exists()) await file.delete();
+  }
 }

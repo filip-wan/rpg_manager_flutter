@@ -32,6 +32,12 @@ class UserStorage {
     _files.write(jsonString, _usersFileName);
   }
 
+  void removeUser(String currentUser) {
+    this.currentUser = currentUser;
+
+    _files.remove('${currentUser}_actions');
+  }
+
   Future<List<ActionModel>> loadActions() async {
     String jsonString = await _files.read(
       _actionsFileName(),
