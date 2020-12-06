@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String currentUser;
+  String currentUser = 'Anonymous';
 
   List<String> users = ['Anonymous'];
   List<ActionModel> actions = [];
@@ -25,21 +25,16 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     widget.storage.loadActions().then((List<ActionModel> value) {
-      if (value != null) {
-        setState(() {
-          this.actions = value;
-        });
-      }
+      setState(() {
+        if (value != null) this.actions = value;
+      });
     });
     widget.storage.loadUsers().then((List<String> value) {
-      if (value != null) {
-        setState(() {
-          this.users = value;
-          this.currentUser = widget.storage.currentUser == null
-              ? 'Anonymous'
-              : widget.storage.currentUser;
-        });
-      }
+      setState(() {
+        if (value != null) this.users = value;
+        if (widget.storage.currentUser != null)
+          this.currentUser = widget.storage.currentUser;
+      });
     });
   }
 

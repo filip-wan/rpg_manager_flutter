@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class UserStorage {
   static const String _usersFileName = 'users';
-  String _actionsFileName() => '$currentUser actions';
+  String _actionsFileName() => '${currentUser}_actions';
 
   final _files = FileUtility();
 
@@ -16,9 +16,12 @@ class UserStorage {
       '{"users": [], "active": "none"}',
     );
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-
     currentUser = jsonMap['active'];
-    return jsonMap['users'];
+
+    List<String> users = jsonMap['users']
+        .map<String>((jsonUser) => jsonUser.toString())
+        .toList();
+    return users;
   }
 
   void saveUsers(List<String> users, String currentUser) {
@@ -35,7 +38,11 @@ class UserStorage {
       '{"actions": []}',
     );
     Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-    return jsonMap['actions'];
+
+    List<ActionModel> actions = jsonMap['actions']
+        .map<ActionModel>((action) => ActionModel.fromJson(action))
+        .toList();
+    return actions;
   }
 
   void saveActions(List<ActionModel> actions) {
