@@ -26,10 +26,26 @@ class ActionItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  model.name,
-                  style: Theme.of(context).textTheme.headline5,
-                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        model.name,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      Container(
+                        constraints:
+                            BoxConstraints(maxHeight: 40, maxWidth: 40),
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            color: Theme.of(context).primaryColor,
+                            icon: Icon(Icons
+                                .highlight_remove_outlined), //person_remove
+                            onPressed: () {
+                              onRemove(model);
+                            }),
+                      ),
+                    ]),
                 Text(model.description),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -43,15 +59,6 @@ class ActionItem extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 10),
-          child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              child: Icon(Icons.add),
-              onPressed: () {
-                onRemove(model);
-              }),
         ),
       ],
     );
