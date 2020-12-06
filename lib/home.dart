@@ -31,9 +31,9 @@ class _HomePageState extends State<HomePage> {
     });
     widget.storage.loadUsers().then((List<String> value) {
       setState(() {
-        this.users = value == null ? ['Default user', 'lol'] : value;
+        this.users = value == null ? ['Anonymous'] : value;
         this.currentUser = widget.storage.currentUser == null
-            ? 'Default user'
+            ? 'Anonymous'
             : widget.storage.currentUser;
       });
     });
@@ -87,8 +87,7 @@ class _HomePageState extends State<HomePage> {
             onChanged: (String newValue) => _switchUser(newValue),
             value: currentUser,
             icon: Icon(Icons.arrow_downward),
-            items: this
-                .users
+            items: (this.users == [] ? ['Anonymous'] : this.users)
                 .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem<String>(
                     value: value,

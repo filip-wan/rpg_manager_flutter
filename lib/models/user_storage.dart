@@ -8,7 +8,7 @@ class UserStorage {
 
   final _files = FileUtility();
 
-  String currentUser;
+  String currentUser = 'Anonymous';
 
   Future<List<String>> loadUsers() async {
     String jsonString = await _files.read(_usersFileName);
