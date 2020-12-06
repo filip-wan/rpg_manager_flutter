@@ -9,7 +9,7 @@ ThemeData buildThemeData() => ThemeData(
       ),
       buttonTheme: ButtonThemeData(
         buttonColor: colors["primary"],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

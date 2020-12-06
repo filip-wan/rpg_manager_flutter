@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rpg_manager_flutter/models/user_storage.dart';
 import 'package:rpg_manager_flutter/styles/theme.dart';
 import 'package:rpg_manager_flutter/home.dart';
 
@@ -12,7 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'RPG Manager',
       theme: buildThemeData(),
-      home: HomePage(title: 'Action List'),
+      home: HomePage(
+        title: 'Action List',
+        storage: UserStorage(),
+      ),
     );
   }
 }
