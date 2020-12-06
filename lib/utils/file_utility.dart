@@ -28,7 +28,7 @@ class FileUtility {
       String contents = await file.readAsString();
       return contents;
     } catch (e) {
-      return '';
+      return '{}';
     }
   }
 }

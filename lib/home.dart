@@ -2,34 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
+import 'package:rpg_manager_flutter/models/user_storage.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+  HomePage({Key key, this.title, @required this.storage}) : super(key: key);
 
   final String title;
+  final UserStorage storage;
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var userActions = [
-    ActionModel(
-        name: 'Greataxe attack',
-        description: 'Deals 1d12+3 damage',
-        diceEquation: '1d12+3'),
-    ActionModel(
-        name: 'Greataxe attack',
-        description: 'Deals 1d12+3 damage',
-        diceEquation: '1d12+3'),
-    ActionModel(
-        name: 'Greataxe attack',
-        description: 'Deals 1d12+3 damage',
-        diceEquation: '1d12+3'),
-  ];
+  String currentUser;
 
-  String dropdownValue = 'One';
-  List<String> dropdownItems = ['One', 'Two', 'Free', 'Four'];
+  List<String> users;
+  List<ActionModel> actions;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.storage.loadActions().then((List<ActionModel> value) {
+      setState(() {
+        this.actions = value == null ? [] : value;
+      });
+    });
+    widget.storage.loadUsers().then((List<String> value) {
+      setState(() {
+        this.users = value == null ? ['Default user', 'lol'] : value;
+        this.currentUser = widget.storage.currentUser == null
+            ? 'Default user'
+            : widget.storage.currentUser;
+      });
+    });
+  }
 
   void _addAction(context) {
     showDialog(
@@ -38,11 +45,19 @@ class _HomePageState extends State<HomePage> {
         model: new ActionModel(),
         onSaved: (ActionModel actionModel) {
           setState(() {
-            this.userActions.add(actionModel);
+            this.actions.add(actionModel);
+            widget.storage.saveActions(actions);
           });
         },
       ),
     );
+  }
+
+  void _switchUser(newValue) {
+    setState(() {
+      this.currentUser = newValue;
+      widget.storage.saveUsers(this.users, this.currentUser);
+    });
   }
 
   @override
@@ -54,14 +69,11 @@ class _HomePageState extends State<HomePage> {
           flex: 4,
           child: DropdownButton<String>(
             isExpanded: true,
-            onChanged: (String newValue) {
-              setState(() {
-                dropdownValue = newValue;
-              });
-            },
-            value: dropdownValue,
+            onChanged: (String newValue) => _switchUser(newValue),
+            value: currentUser,
             icon: Icon(Icons.arrow_downward),
-            items: dropdownItems
+            items: this
+                .users
                 .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem<String>(
                     value: value,
@@ -74,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         Expanded(flex: 5, child: Text(""))
       ])),
       body: Center(
-        child: ActionList(actions: userActions),
+        child: ActionList(actions: this.actions),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addAction(context),
