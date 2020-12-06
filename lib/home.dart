@@ -24,11 +24,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadUsers();
+    _loadActions();
+  }
+
+  void _loadActions() {
     widget.storage.loadActions().then((List<ActionModel> value) {
       setState(() {
         if (value != null) this.actions = value;
       });
     });
+  }
+
+  void _loadUsers() {
     widget.storage.loadUsers().then((List<String> value) {
       setState(() {
         if (value != null) this.users = value;
@@ -58,6 +66,7 @@ class _HomePageState extends State<HomePage> {
       this.currentUser = newValue;
     });
     widget.storage.saveUsers(this.users, this.currentUser);
+    _loadActions();
   }
 
   void _showNewUserDialog() {
@@ -68,6 +77,7 @@ class _HomePageState extends State<HomePage> {
         onSaved: (String userName) {
           setState(() {
             this.users.add(userName);
+            this.currentUser = userName;
           });
           widget.storage.saveUsers(this.users, this.currentUser);
         },
