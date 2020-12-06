@@ -28,6 +28,9 @@ class _HomePageState extends State<HomePage> {
         diceEquation: '1d12+3'),
   ];
 
+  String dropdownValue = 'One';
+  List<String> dropdownItems = ['One', 'Two', 'Free', 'Four'];
+
   void _addAction(context) {
     showDialog(
       context: context,
@@ -46,8 +49,30 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
+          title: Row(children: [
+        Expanded(
+          flex: 4,
+          child: DropdownButton<String>(
+            isExpanded: true,
+            onChanged: (String newValue) {
+              setState(() {
+                dropdownValue = newValue;
+              });
+            },
+            value: dropdownValue,
+            icon: Icon(Icons.arrow_downward),
+            items: dropdownItems
+                .map<DropdownMenuItem<String>>(
+                  (String value) => DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        Expanded(flex: 5, child: Text(""))
+      ])),
       body: Center(
         child: ActionList(actions: userActions),
       ),
