@@ -91,7 +91,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
           title: Row(children: [
         Expanded(
-          flex: 6,
           child: DropdownButton<String>(
             isExpanded: true,
             onChanged: (String newValue) => _switchUser(newValue),
@@ -108,17 +107,14 @@ class _HomePageState extends State<HomePage> {
                 .toList(),
           ),
         ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            padding: EdgeInsets.only(left: 10),
-            child: FlatButton(
-                color: Theme.of(context).primaryColor,
-                child: Icon(Icons.add),
-                onPressed: () => _showNewUserDialog()),
-          ),
+        Container(
+          constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+          padding: EdgeInsets.only(left: 10),
+          child: FlatButton(
+              color: Theme.of(context).primaryColor,
+              child: Icon(Icons.add),
+              onPressed: () => _showNewUserDialog()),
         ),
-        Expanded(flex: 6, child: Text(""))
       ])),
       body: Center(
         child: ActionList(actions: this.actions),
