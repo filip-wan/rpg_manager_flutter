@@ -3,6 +3,7 @@ import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 import 'package:rpg_manager_flutter/models/user_storage.dart';
+import 'package:rpg_manager_flutter/widgets/calculator_tab.dart';
 import 'package:rpg_manager_flutter/widgets/delete_user_form.dart';
 import 'package:rpg_manager_flutter/widgets/new_user_form.dart';
 
@@ -171,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                     widget.storage.saveActions(this.actions);
                   }),
             ),
-            Text("data")
+            CalculatorTab()
           ],
         ),
         floatingActionButton: FloatingActionButton(
