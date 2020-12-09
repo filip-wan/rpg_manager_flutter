@@ -26,10 +26,7 @@ class _HomePageState extends State<HomePage>
 
   TabController _tabController;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  int _selectedIndex = 1;
 
   @override
   void dispose() {
@@ -37,10 +34,17 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
+  _handleTabSelection() {
+    setState(() {
+      _selectedIndex = _tabController.index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabSelection);
     _loadUsers();
     _loadActions();
   }
@@ -177,28 +181,31 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-        body: new TabBarView(
+        body: TabBarView(
           controller: _tabController,
           children: <Tab>[
             Tab(
-                child: Center(
-              child: ActionList(
-                  actions: this.actions,
-                  onRemove: (action) {
-                    setState(() {
-                      this.actions.remove(action);
-                    });
-                    widget.storage.saveActions(this.actions);
-                  }),
-            )),
+              child: Center(
+                child: ActionList(
+                    actions: this.actions,
+                    onRemove: (action) {
+                      setState(() {
+                        this.actions.remove(action);
+                      });
+                      widget.storage.saveActions(this.actions);
+                    }),
+              ),
+            ),
             Tab(child: CalculatorTab()),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _addAction(context),
-          tooltip: 'Add actions',
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton: _selectedIndex == 0
+            ? FloatingActionButton(
+                onPressed: () => _addAction(context),
+                tooltip: 'Add actions',
+                child: Icon(Icons.add),
+              )
+            : null,
       ),
     );
   }
