@@ -17,15 +17,30 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   String currentUser = 'Anonymous';
 
   List<String> users = ['Anonymous'];
   List<ActionModel> actions = [];
 
+  TabController _tabController;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _tabController = new TabController(vsync: this, length: 2);
     _loadUsers();
     _loadActions();
   }
@@ -114,55 +129,59 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-            title: Row(children: [
-          Expanded(
-            child: DropdownButton<String>(
-              isExpanded: true,
-              onChanged: (String newValue) => _switchUser(newValue),
-              value: currentUser,
-              icon: Icon(Icons.arrow_downward),
-              items: this
-                  .users
-                  .map<DropdownMenuItem<String>>(
-                    (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
-            ),
+          bottom: new TabBar(
+            controller: _tabController,
+            tabs: <Tab>[
+              Tab(child: Text('Actions')),
+              Tab(child: Text('Calculator')),
+            ],
           ),
-          Container(
-            constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-            padding: EdgeInsets.only(left: 10),
-            child: FlatButton(
-                color: Theme.of(context).primaryColor,
-                child: Icon(Icons.person_add_alt_1),
-                onPressed: () => _showNewUserDialog()),
-          ),
-          (this.currentUser == "Anonymous"
-              ? Text("")
-              : Container(
-                  constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-                  padding: EdgeInsets.only(left: 10),
-                  child: FlatButton(
+          title: Row(
+            children: [
+              Expanded(
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  onChanged: (String newValue) => _switchUser(newValue),
+                  value: currentUser,
+                  icon: Icon(Icons.arrow_downward),
+                  items: this
+                      .users
+                      .map<DropdownMenuItem<String>>(
+                        (String value) => DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              Container(
+                constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+                padding: EdgeInsets.only(left: 10),
+                child: FlatButton(
                     color: Theme.of(context).primaryColor,
-                    child: Icon(Icons.person_remove),
-                    onPressed: () => _deleteUser(),
-                  ),
-                )),
-          Container(
-            constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-            padding: EdgeInsets.only(left: 10),
-            child: FlatButton(
-                color: Theme.of(context).primaryColor,
-                child: Icon(Icons.calculate_outlined),
-                onPressed: () => {}),
+                    child: Icon(Icons.person_add_alt_1),
+                    onPressed: () => _showNewUserDialog()),
+              ),
+              (this.currentUser == "Anonymous"
+                  ? Text("")
+                  : Container(
+                      constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+                      padding: EdgeInsets.only(left: 10),
+                      child: FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        child: Icon(Icons.person_remove),
+                        onPressed: () => _deleteUser(),
+                      ),
+                    )),
+            ],
           ),
-        ])),
-        body: TabBarView(
-          children: <Widget>[
-            Center(
+        ),
+        body: new TabBarView(
+          controller: _tabController,
+          children: <Tab>[
+            Tab(
+                child: Center(
               child: ActionList(
                   actions: this.actions,
                   onRemove: (action) {
@@ -171,8 +190,8 @@ class _HomePageState extends State<HomePage> {
                     });
                     widget.storage.saveActions(this.actions);
                   }),
-            ),
-            CalculatorTab()
+            )),
+            Tab(child: CalculatorTab()),
           ],
         ),
         floatingActionButton: FloatingActionButton(
