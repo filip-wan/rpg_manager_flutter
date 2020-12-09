@@ -10,18 +10,36 @@ class ActionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView.builder(
-        itemCount: actions?.length ?? 0,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: ActionItem(
-              model: actions[index],
-              onRemove: onRemove,
+    return this.actions?.length == 0
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "It's empty in here.",
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Text(
+                  "Try adding new action \n or switch to another user.",
+                  style: Theme.of(context).textTheme.headline5,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          )
+        : Scrollbar(
+            child: ListView.builder(
+              itemCount: actions?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: ActionItem(
+                    model: actions[index],
+                    onRemove: onRemove,
+                  ),
+                );
+              },
             ),
           );
-        },
-      ),
-    );
   }
 }
