@@ -3,6 +3,7 @@ import 'package:rpg_manager_flutter/widgets/action_form.dart';
 import 'package:rpg_manager_flutter/widgets/action_list.dart';
 import 'package:rpg_manager_flutter/models/action_model.dart';
 import 'package:rpg_manager_flutter/models/user_storage.dart';
+import 'package:rpg_manager_flutter/widgets/calculator_tab.dart';
 import 'package:rpg_manager_flutter/widgets/delete_user_form.dart';
 import 'package:rpg_manager_flutter/widgets/new_user_form.dart';
 
@@ -16,15 +17,34 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   String currentUser = 'Anonymous';
 
   List<String> users = ['Anonymous'];
   List<ActionModel> actions = [];
 
+  TabController _tabController;
+
+  int _selectedIndex = 1;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  _handleTabSelection() {
+    setState(() {
+      _selectedIndex = _tabController.index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _tabController = new TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabSelection);
     _loadUsers();
     _loadActions();
   }
@@ -108,60 +128,84 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Row(children: [
-        Expanded(
-          child: DropdownButton<String>(
-            isExpanded: true,
-            onChanged: (String newValue) => _switchUser(newValue),
-            value: currentUser,
-            icon: Icon(Icons.arrow_downward),
-            items: this
-                .users
-                .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  ),
-                )
-                .toList(),
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: new TabBar(
+            controller: _tabController,
+            tabs: <Tab>[
+              Tab(child: Text('Actions')),
+              Tab(child: Text('Calculator')),
+            ],
           ),
-        ),
-        (this.currentUser == "Anonymous"
-            ? Text("")
-            : Container(
+          title: Row(
+            children: [
+              Expanded(
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  onChanged: (String newValue) => _switchUser(newValue),
+                  value: currentUser,
+                  icon: Icon(Icons.arrow_downward),
+                  items: this
+                      .users
+                      .map<DropdownMenuItem<String>>(
+                        (String value) => DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              Container(
                 constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
                 padding: EdgeInsets.only(left: 10),
                 child: FlatButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Icon(Icons.person_remove),
-                  onPressed: () => _deleteUser(),
-                ),
-              )),
-        Container(
-          constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
-          padding: EdgeInsets.only(left: 10),
-          child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              child: Icon(Icons.add),
-              onPressed: () => _showNewUserDialog()),
+                    color: Theme.of(context).primaryColor,
+                    child: Icon(Icons.person_add_alt_1),
+                    onPressed: () => _showNewUserDialog()),
+              ),
+              (this.currentUser == "Anonymous"
+                  ? Text("")
+                  : Container(
+                      constraints: BoxConstraints(maxHeight: 40, maxWidth: 60),
+                      padding: EdgeInsets.only(left: 10),
+                      child: FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        child: Icon(Icons.person_remove),
+                        onPressed: () => _deleteUser(),
+                      ),
+                    )),
+            ],
+          ),
         ),
-      ])),
-      body: Center(
-        child: ActionList(
-            actions: this.actions,
-            onRemove: (action) {
-              setState(() {
-                this.actions.remove(action);
-              });
-              widget.storage.saveActions(this.actions);
-            }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addAction(context),
-        tooltip: 'Add actions',
-        child: Icon(Icons.add),
+        body: TabBarView(
+          controller: _tabController,
+          children: <Tab>[
+            Tab(
+              child: Center(
+                child: ActionList(
+                    actions: this.actions,
+                    onRemove: (action) {
+                      setState(() {
+                        this.actions.remove(action);
+                      });
+                      widget.storage.saveActions(this.actions);
+                    }),
+              ),
+            ),
+            Tab(child: CalculatorTab()),
+          ],
+        ),
+        floatingActionButton: _selectedIndex == 0
+            ? FloatingActionButton(
+                onPressed: () => _addAction(context),
+                tooltip: 'Add actions',
+                child: Icon(Icons.add),
+              )
+            : null,
       ),
     );
   }
